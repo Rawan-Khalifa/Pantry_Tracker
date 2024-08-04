@@ -1,8 +1,7 @@
 'use client';
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import { firestore, auth } from "@/firebase";
+import { firestore, auth } from "@/firebase"; 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { Box, Modal, Typography, Stack, TextField, Button } from "@mui/material";
 import { collection, getDocs, query, getDoc, doc, deleteDoc, updateDoc, setDoc } from "firebase/firestore";
@@ -12,16 +11,25 @@ export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [open, setOpen] = useState(false);
   const [itemName, setItemName] = useState("");
-  const [user, setUser] = useState(null); // Add user state
+  const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState(""); // State for storing the user's name
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        
+        // Retrieve user's name from Firestore
+        const userDoc = await getDoc(doc(firestore, "users", currentUser.uid));
+        if (userDoc.exists()) {
+          setUserName(userDoc.data().name);
+        }
+        
         updateInventory(currentUser.uid);
       } else {
         setUser(null);
-        setInventory([]); // Clear inventory when user logs out
+        setInventory([]); 
+        setUserName(""); // Clear userName when user logs out
       }
     });
 
@@ -77,13 +85,22 @@ export default function Home() {
   };
 
   return (
-    <Box width="100vw" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap={2}>
+    <Box 
+      width="100vw" 
+      height="100vh" 
+      display="flex" 
+      flexDirection="column" 
+      justifyContent="center" 
+      alignItems="center" 
+      bgcolor="#f7f7f7" 
+      padding={2}
+    >
       {user ? (
         <>
-          <Typography variant="h5" color="#333" mb={2}>
-            Welcome, {user.email}
+          <Typography variant="h5" style={styles.header}>
+            Welcome, {userName}
           </Typography>
-          <Button variant="outlined" color="secondary" onClick={handleSignOut} sx={{ mb: 2 }}>
+          <Button variant="outlined" style={styles.signOutButton} onClick={handleSignOut}>
             Sign Out
           </Button>
           <Modal open={open} onClose={handleClose}>
@@ -93,7 +110,7 @@ export default function Home() {
               left="50%"
               width={400}
               bgcolor="white"
-              border="2px solid black"
+              borderRadius="10px"
               boxShadow={24}
               p={4}
               display="flex"
@@ -119,21 +136,38 @@ export default function Home() {
                     setItemName("");
                     handleClose();
                   }}
+                  style={styles.addItemButton}
                 >
                   Add
                 </Button>
               </Stack>
             </Box>
           </Modal>
-          <Button variant="contained" color="primary" onClick={handleOpen}>
+          <Button variant="contained" color="primary" onClick={handleOpen} style={styles.addItemButton}>
             Add Item
           </Button>
-          <Box width="800px" height="100px" bgcolor="#ADD8E6" display="flex" justifyContent="center" alignItems="center" mt={2}>
+          <Box 
+            width="100%" 
+            maxWidth="800px" 
+            mt={2} 
+            p={2} 
+            bgcolor="#ADD8E6" 
+            borderRadius={2} 
+            display="flex" 
+            justifyContent="center" 
+            alignItems="center"
+          >
             <Typography variant="h4" color="#333">
               Inventory Items
             </Typography>
           </Box>
-          <Stack width="800px" spacing={2} mt={2} sx={{ maxHeight: "60vh", overflow: "auto" }}>
+          <Stack 
+            width="100%" 
+            maxWidth="800px" 
+            spacing={2} 
+            mt={2} 
+            sx={{ maxHeight: "60vh", overflow: "auto" }}
+          >
             {inventory.map(({ name, quantity }) => (
               <Box
                 key={name}
@@ -153,7 +187,7 @@ export default function Home() {
                 <Typography variant="h6" color="#333">
                   {quantity}
                 </Typography>
-                <Button variant="outlined" color="secondary" onClick={() => removeItem(name)}>
+                <Button variant="outlined" style={styles.removeItemButton} onClick={() => removeItem(name)}>
                   Remove
                 </Button>
               </Box>
@@ -162,16 +196,16 @@ export default function Home() {
         </>
       ) : (
         <>
-          <Typography variant="h4" color="#333" mb={2}>
+          <Typography variant="h4" style={styles.header}>
             Please sign in to view your inventory.
           </Typography>
           <Link href="/signin" passHref>
-            <Button variant="contained" color="primary" sx={{ mb: 2 }}>
+            <Button variant="contained" style={styles.signInButton}>
               Sign In
             </Button>
           </Link>
           <Link href="/signup" passHref>
-            <Button variant="outlined" color="secondary">
+            <Button variant="outlined" style={styles.signUpButton}>
               Sign Up
             </Button>
           </Link>
@@ -180,3 +214,60 @@ export default function Home() {
     </Box>
   );
 }
+
+const styles = {
+  header: {
+    color: '#333',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    textAlign: 'center',
+  },
+  signOutButton: {
+    width: '300px',
+    padding: '10px',
+    color: '#007bff',
+    border: '2px solid #007bff',
+    borderRadius: '5px',
+    fontSize: '16px',
+    textTransform: 'none',
+    marginBottom: '20px',
+  },
+  addItemButton: {
+    width: '100px',
+    padding: '10px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    textTransform: 'none',
+  },
+  signInButton: {
+    width: '300px',
+    padding: '10px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    marginBottom: '10px',
+    cursor: 'pointer',
+    textTransform: 'none',
+  },
+  signUpButton: {
+    width: '300px',
+    padding: '10px',
+    color: '#007bff',
+    border: '2px solid #007bff',
+    borderRadius: '5px',
+    fontSize: '16px',
+    textTransform: 'none',
+  },
+  removeItemButton: {
+    color: '#ff0000',
+    border: '2px solid #ff0000',
+    borderRadius: '5px',
+    textTransform: 'none',
+  },
+};
