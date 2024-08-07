@@ -5,6 +5,7 @@ import { firestore, auth } from "@/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { Box, Modal, Typography, Stack, TextField, Button } from "@mui/material";
 import { collection, getDocs, query, getDoc, doc, deleteDoc, updateDoc, setDoc } from "firebase/firestore";
+import { Analytics } from "@vercel/analytics/react"
 import Link from "next/link";
 
 export default function Home() {
