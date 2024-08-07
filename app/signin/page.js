@@ -41,7 +41,7 @@ export default function SignInPage() {
         />
         <button onClick={handleSignIn} style={styles.button}>Login</button>
         <p style={styles.linkText}>
-          Don't have an account? <a href="/signup" style={styles.link}>Sign Up</a>
+        Don&apos;t have an account? <a href="/signup" style={styles.link}>Sign Up</a>
         </p>
       </div>
     </div>
