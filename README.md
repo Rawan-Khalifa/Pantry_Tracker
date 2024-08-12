@@ -2,6 +2,8 @@
 
 Welcome to **Pantry Tracker**, a web application designed to help you keep track of the items in your pantry effortlessly. With this tool, you can easily manage your pantry inventory, add or remove items, and stay organized. The application is built using modern web technologies, including **Next.js**, **Firebase**, and **Material UI**, and is deployed on **Vercel**.
 
+### Click [HERE](https://pantry-tracker-l1drxnbik-rawan-khalifas-projects.vercel.app/) to try it out!
+
 ## Features
 
 - **Item Count:** Keep track of the quantity of each item in your pantry.
