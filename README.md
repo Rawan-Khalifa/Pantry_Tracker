@@ -1,37 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 # Pantry_Tracker
+
+Welcome to Pantry Tracker, a web application designed to help you keep track of the items in your pantry effortlessly. With this tool, you can easily manage your pantry inventory, add or remove items, and stay organized. The application is built using modern web technologies, including Next.js, Firebase, and Material UI, and is deployed on Vercel.
+
+## Features
+
+Item Count: Keep track of the quantity of each item in your pantry.
+Add/Remove Items: Easily add new items to your pantry or remove items you no longer need.
+User Authentication: Secure sign-up and sign-in pages for personalized user experience.
+Responsive Design: A clean and responsive interface built with Material UI to ensure a smooth user experience on any device.
+
+## Technologies Used
+
+Next.js: A powerful React framework for building fast and user-friendly web applications.
+Firebase: Used for authentication and real-time database to manage user data securely.
+Material UI: A popular React UI framework for creating a visually appealing and responsive design.
+Vercel: Deployed using Vercel for seamless and efficient hosting.
